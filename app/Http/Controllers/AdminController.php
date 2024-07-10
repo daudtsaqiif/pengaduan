@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Models\Pengaduan;
 use App\Models\Pengajuan;
 use Illuminate\Http\Request;
 
@@ -9,19 +11,21 @@ class AdminController extends Controller
 {
     public function index()
     {
-        $pengajuan = Pengajuan::latest()->get();
-        $pengaduan = Pengajuan::count();
-        $berat = Pengajuan::where('level', 'Berat')->count();
-        $sedang = Pengajuan::where('level', 'Sedang')->count();
-        $ringan = Pengajuan::where('level', 'Ringan')->count();
+        $pengajuan = Pengaduan::latest()->get();
+        $pengaduan = Pengaduan::count();
+        $berat = Pengaduan::where('level', 'Berat')->count();
+        $sedang = Pengaduan::where('level', 'Sedang')->count();
+        $ringan = Pengaduan::where('level', 'Ringan')->count();
+        $category = Category::where('status', true)->get();
+        $requestCategory = Category::where('status', false)->get();
 
-        return view('admin.index', compact('pengajuan', 'pengaduan', 'berat', 'ringan', 'sedang'));
+        return view('admin.index', compact('pengajuan', 'pengaduan', 'berat', 'ringan', 'sedang', 'category', 'requestCategory'));
     }
 
     public function status($id)
     {
         try {
-            $pengajuan = Pengajuan::findOrFail($id);
+            $pengajuan = Pengaduan::findOrFail($id);
 
             $pengajuan->update([
                 "status" => true
@@ -36,7 +40,7 @@ class AdminController extends Controller
     public function reply(Request $request, $id)
     {
         try {
-            $pengajuan = Pengajuan::findOrFail($id);
+            $pengajuan = Pengaduan::findOrFail($id);
 
             $pengajuan->update([
                 "status" => true,
@@ -52,7 +56,7 @@ class AdminController extends Controller
     public function delete($id)
     {
         try {
-            $pengajuan = Pengajuan::findOrFail($id);
+            $pengajuan = Pengaduan::findOrFail($id);
 
             $pengajuan->delete();
 

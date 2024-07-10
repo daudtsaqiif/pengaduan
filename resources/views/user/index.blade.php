@@ -26,8 +26,8 @@
             @method('POST')
             <div class="card-body">
                 <div class="form-group">
-                    <label for="#pengajuan">Deskripsi Pelanggaran</label>
-                    <input type="text" name="pengajuan" class="form-control" id="pengajuan"
+                    <label for="#pengaduan">Deskripsi Pelanggaran</label>
+                    <input type="text" name="pengaduan" class="form-control" id="pengaduan"
                         placeholder="Deskipsikan pengaduan">
                     <div class="form-group">
                         <label for="#level">Tingkat Pelanggaran</label>
@@ -38,12 +38,40 @@
                         </select>
                     </div>
                 </div>
+
+                <div class="form-group">
+                    <label for="#category">Category Pelanggaran</label>
+                    <select class="form-control select2" style="width: 100%;" id="category" name="category_id">
+                        @foreach ($category as $row )
+                        <option value="{{ $row->id }}">{{ $row->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+
             </div>
             <div class="card-footer">
                 <button type="submit" class="btn btn-primary">Submit</button>
             </div>
         </form>
     </div>
+    <hr>
+
+<form action="{{ route('user.category') }}" method="post">
+    @csrf
+    @method('POST')
+    <div class="card-body">
+        <div class="form-group">
+            <label for="#name">category</label>
+            <input type="text" name="name" class="form-control" id="name"
+                placeholder="Deskipsikan pengaduan">
+        </div>
+    </div>
+    <div class="card-footer">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</form>
+
     <hr>
 
     @foreach ($pengajuan as $item)
@@ -71,6 +99,8 @@
                                 <span class="badge bg-danger"><i class='bx bx-info-circle'></i> Berat</span>
                                 @endif
                             </p>
+                            <p class="m-2"><span class="font-weight-bold">Category Pengaduan:</span>
+                                {{ $item->category->name }} </p>
                             <p class="m-2"><span class="font-weight-bold">Has Seen:</span>
                                 @if ($item->status == false)
                                     Hasn't Seen ❌

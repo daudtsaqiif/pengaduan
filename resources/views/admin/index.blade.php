@@ -17,6 +17,43 @@
     </div>
 </div>
 
+@foreach ($requestCategory as $cate )
+    
+<form action="{{ route('admin.category.update', $cate->id) }}" method="post">
+    @csrf
+    @method('PUT')
+    <div class="card-body">
+        <div class="form-group">
+            <label>{{ $cate->name }}</label>
+        </div>
+    </div>
+    <div class="card-footer">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</form>
+<form action="{{ route('admin.category.destroy', $cate->id) }}" method="post">
+    @csrf
+    @method('DELETE')
+    <button type="submit" class="btn btn-primary">Batalkan</button>
+</form>
+
+@endforeach
+
+<form action="{{ route('admin.category.store') }}" method="post">
+    @csrf
+    @method('POST')
+    <div class="card-body">
+        <div class="form-group">
+            <label for="#name">category</label>
+            <input type="text" name="name" class="form-control" id="name"
+                placeholder="Deskipsikan pengaduan">
+        </div>
+    </div>
+    <div class="card-footer">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</form>
+
 <div class="container-fluid">
         <div class="row">
             <div class="col-lg-3 col-6">
@@ -93,7 +130,7 @@
                         <div class="timeline-item">
                             <h3 class="timeline-header text-primary font-weight-bold">Anonymous</h3>
                             <p class="m-2"><span class="font-weight-bold">Deskripsi Pengaduan:</span>
-                                {{ $item->pengajuan }} </p>
+                                {{ $item->pengaduan }} </p>
                             <p class="m-2"><span class="font-weight-bold">Tingkat Pengaduan:</span>
                                 @if ($item->level == 'Ringan')
                                     <span class="badge bg-info"><i class='bx bx-info-circle'></i> Ringan</span>
@@ -103,6 +140,8 @@
                                     <span class="badge bg-danger"><i class='bx bx-info-circle'></i> Berat</span>
                                 @endif
                             </p>
+                            <p class="m-2"><span class="font-weight-bold">Category Pengaduan:</span>
+                                {{ $item->category->name }} </p>
                             <p class="m-2"><span class="font-weight-bold">Reply:</span> {{ $item->reply }}</p>
                             <p class="m-2"><span class="font-weight-bold">Has Seen:</span>
                                 @if ($item->status == false)
@@ -146,4 +185,6 @@
 
         </div>
     @endforeach
+
+    
 @endsection

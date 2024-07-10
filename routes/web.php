@@ -1,8 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AdminController;
+use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Category;
 
 Route::get('/', function () {
     return view('welcome');
@@ -17,9 +19,17 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function() {
     Route::put("/status/{id}", [AdminController::class, "status"])->name('status');
     Route::put("/reply/{id}", [AdminController::class, "reply"])->name('reply');
     Route::delete("/delete/{id}", [AdminController::class, "delete"])->name('delete');
+    Route::resource("/category", Category::class);
 });
 
 Route::name('user.')->prefix('user')->group(function() {
     Route::get('/index', [UserController::class, 'index'])->name('index');
     Route::post('/store', [UserController::class, 'store'])->name('store');
+    Route::post('/requestcategory', [UserController::class, 'requestCategory'])->name('category');
+});
+
+Route::get('/artisan-call', function(){
+    Artisan::call('route:clear');
+    Artisan::call('config:clear');
+    return 'success';
 });
