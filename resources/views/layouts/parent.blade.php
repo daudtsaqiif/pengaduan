@@ -40,12 +40,9 @@
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
 
-            @if (Auth::check())
-                @include('layouts.includes.sidebar.admin')
-            @endif
-            @include('layouts.includes.sidebar.user')
 
-            
+                @include('layouts.includes.sidebar.admin')
+
 
         </aside>
 

@@ -14,7 +14,7 @@ class UserController extends Controller
         $pengajuan = Pengaduan::latest()->get();
         $category = Category::where('status', true)->get();
 
-        return view('user.index', compact('pengajuan', 'category'));
+        return view('frontend.index', compact('pengajuan', 'category'));
     }
 
     public function store(Request $request) {

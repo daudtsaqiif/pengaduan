@@ -1,60 +1,44 @@
 @extends('layouts.parent')
 
 @section('content')
-<div class="content-header">
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1 class="m-0">Dashboard</h1>
-            </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#  ">Home</a></li>
-                    <li class="breadcrumb-item active">Cek Pengaduan</li>
-                </ol>
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">Dashboard</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#  ">Home</a></li>
+                        <li class="breadcrumb-item active">Cek Pengaduan</li>
+                    </ol>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-@foreach ($requestCategory as $cate )
+
     
-<form action="{{ route('admin.category.update', $cate->id) }}" method="post">
-    @csrf
-    @method('PUT')
-    <div class="card-body">
-        <div class="form-group">
-            <label>{{ $cate->name }}</label>
-        </div>
+    @foreach ($requestCategory as $cate)
+    <div class="alert alert-info alert-dismissible">
+        <form action="{{ route('admin.category.destroy', $cate->id) }}" method="post">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="close" >&times;</button>
+        </form>
+        <h5><i class="icon fas fa-info"></i> New Category!</h5>
+        <form action="{{ route('admin.category.update', $cate->id) }}" method="post">
+            @csrf
+            @method('PUT')
+                <div class="form-group">
+                    <label>{{ $cate->name }}</label>
+                </div> 
+                <button type="submit" class="btn btn-success"><i class="icon fas fa-check"></i></button>
+        </form>
     </div>
-    <div class="card-footer">
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </div>
-</form>
-<form action="{{ route('admin.category.destroy', $cate->id) }}" method="post">
-    @csrf
-    @method('DELETE')
-    <button type="submit" class="btn btn-primary">Batalkan</button>
-</form>
+    @endforeach
 
-@endforeach
-
-<form action="{{ route('admin.category.store') }}" method="post">
-    @csrf
-    @method('POST')
-    <div class="card-body">
-        <div class="form-group">
-            <label for="#name">category</label>
-            <input type="text" name="name" class="form-control" id="name"
-                placeholder="Deskipsikan pengaduan">
-        </div>
-    </div>
-    <div class="card-footer">
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </div>
-</form>
-
-<div class="container-fluid">
+    <div class="container-fluid">
         <div class="row">
             <div class="col-lg-3 col-6">
 
@@ -166,7 +150,8 @@
                                 <form action="{{ route('admin.status', $item->id) }}" method="post" class="m-1">
                                     @csrf
                                     @method('PUT')
-                                    <button type="submit" class="btn btn-success"><i class='bx bx-check-square'></i> Have
+                                    <button type="submit" class="btn btn-success"><i class='bx bx-check-square'></i>
+                                        Have
                                         Seen</button>
                                 </form>
                                 <form action="{{ route('admin.delete', $item->id) }}" method="post" class="m-1">
@@ -177,7 +162,6 @@
                                 </form>
                             </div>
 
-
                         </div>
                     </div>
                 </div>
@@ -185,6 +169,4 @@
 
         </div>
     @endforeach
-
-    
 @endsection

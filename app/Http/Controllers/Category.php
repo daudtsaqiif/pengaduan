@@ -13,6 +13,9 @@ class Category extends Controller
     public function index()
     {
         //
+        $category = ModelsCategory::latest()->get();
+        $requestCategory = ModelsCategory::where('status', false)->get();
+        return view('admin.category', compact('category', 'requestCategory')); 
     }
 
     /**
@@ -37,7 +40,7 @@ class Category extends Controller
         ]);
 
 
-        return redirect()->route('admin.index');
+        return redirect()->route('admin.category.index');
     }
 
     /**
@@ -81,6 +84,6 @@ class Category extends Controller
 
         $category->delete();
 
-        return redirect()->route('admin.index');
+        return redirect()->route('admin.category.index');
     }
 }
